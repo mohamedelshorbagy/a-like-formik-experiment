@@ -1,26 +1,65 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ALikeFormik from './ALikeFormik';
+import './App.css'
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      form: {
+        name: {
+          value: '',
+          type: 'text',
+          placeholder: 'Name'
+        },
+        age: {
+          value: 0,
+          type: 'number',
+          placeholder: 'age'
+        }
+      }
+    };
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  }
+
+  render() {
+    return (
+      <>
+        <h1 className="ui header center aligned">A Like Formik Experiment</h1>
+        <ALikeFormik initialState={this.state.form}>
+          {({ values, touched, errors, handleChange, handleTouched }) => {
+            return (
+              <div className="ui container">
+                {
+                  Object.entries(values).map(([name, { type, value, placeholder }], index) => (
+                    <div
+                      key={index}
+                      className="ui input fluid">
+                      <input
+                        type={type}
+                        value={value}
+                        name={name}
+                        onChange={handleChange}
+                        onBlur={handleTouched}
+                        placeholder={placeholder} />
+
+                    </div>
+                  ))
+                }
+                {/* <input type="text" onChange={handleChange} onBlur={handleTouched} name="name" value={values.name} /> */}
+                <hr />
+                <div className="ui card fluid">
+                  <div className="content">
+                    <pre>{JSON.stringify({ values, touched, errors }, null, 2)}</pre>
+                  </div>
+                </div>
+              </div>
+            )
+          }
+          }
+        </ALikeFormik>
+      </>
+    )
+  }
 }
 
 export default App;
